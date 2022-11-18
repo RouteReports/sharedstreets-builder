@@ -39,7 +39,7 @@ def protobufversion = "3.4.0"
 dependencies {
 
 
-    compile 'org.slf4j:slf4j-api:1.7.5'
+    compile 'org.slf4j:slf4j-api:2.0.3'
     compile files('external/osmosis-osm-binary.jar')
     compile 'com.esri.geometry:esri-geometry-api:1.2.1'
     compile "org.apache.flink:flink-java:${flinkversion}"
