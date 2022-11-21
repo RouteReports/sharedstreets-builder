@@ -42,7 +42,7 @@ When running the image, you'll note the mounted volumes:
 
 Example:
 ```
-docker run --rm -v /tmp -v /data -v $PWD/out/:/out/ shst 1G 'https://github.com/sharedstreets/sharedstreets-builder/raw/master/data/nyc_test.pbf'
+docker run --rm -v /tmp -v $PWD/data/:/data/ -v $PWD/out/:/out/ shst 1G 'https://github.com/sharedstreets/sharedstreets-builder/raw/master/data/nyc_test.pbf'
 ```
 
 ### Using Java directly
