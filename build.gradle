@@ -40,6 +40,7 @@ dependencies {
 
 
     compile 'org.slf4j:slf4j-api:2.0.3'
+    compile 'org.slf4j:slf4j-jdk14:2.0.3'
     compile files('external/osmosis-osm-binary.jar')
     compile 'com.esri.geometry:esri-geometry-api:1.2.1'
     compile "org.apache.flink:flink-java:${flinkversion}"
@@ -95,6 +96,7 @@ shadowJar {
     dependencies {
 
         include(dependency('org.slf4j:slf4j-api'))
+        include(dependency('org.slf4j:slf4j-jdk14'))
         include(dependency(files('external/osmosis-osm-binary.jar')))
         include(dependency('com.esri.geometry:esri-geometry-api'))
         include(dependency('com.jsoniter:jsoniter'))
