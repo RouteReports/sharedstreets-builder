@@ -42,7 +42,15 @@ When running the image, you'll note the mounted volumes:
 
 Example:
 ```
-docker run --rm -v /tmp -v $PWD/data/:/data/ -v $PWD/out/:/out/ shst 1G 'https://github.com/sharedstreets/sharedstreets-builder/raw/master/data/nyc_test.pbf'
+curl https://github.com/sharedstreets/sharedstreets-builder/raw/master/data/nyc_test.pbf -L -o data/nyc_test.pbf
+docker run \
+    --rm \
+    -v /tmp \
+    -v $PWD/data/:/data/ \
+    -v $PWD/out/:/out/ \
+    shst \
+    1G \
+    'https://github.com/sharedstreets/sharedstreets-builder/raw/master/data/nyc_test.pbf'
 ```
 
 ### Using Java directly
@@ -51,6 +59,27 @@ If you want to invoke sharedstreets builder directly, you first need to have fet
 
 `java -jar ./sharedstreets-builder-0.3.jar --input data/[osm_input_file].pbf --output ./[tile_output_directory]
 `
+
+## Running in EC2
+Through the infrastructure defined in the Remix monorepo under `terraform/aws/shared-streets-builder`, we have an EC2 instance defined,
+"SharedStreets-Tiles-Instance", in the getremix account in us-east-1. This is a very beefy instance. To run:
+
+```
+cd ~/sharedstreets-builder
+git pull
+sudo docker build . -t shst
+curl https://github.com/sharedstreets/sharedstreets-builder/raw/master/data/nyc_test.pbf -L -o data/nyc_test.pbf
+sudo docker run \
+    -d \
+    --log-driver=awslogs --log-opt awslogs-group=SharedStreets-Tiles --log-opt awslogs-create-group=true \
+    --rm \
+    -v /tmp \
+    -v $PWD/data/:/data/ \
+    -v $PWD/out/:/out/ \
+    shst \
+    256G \
+    out/nyc_test.pbf
+```
 
 ## Example datasets
 These are OSM datasets found online that can be used for testing SharedStreets builder.
