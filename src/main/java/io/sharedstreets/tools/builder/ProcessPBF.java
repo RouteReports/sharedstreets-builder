@@ -16,6 +16,9 @@ import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.functions.ReduceFunction;
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
+import org.apache.flink.api.common.ExecutionConfig;
+import org.apache.flink.configuration.ConfigConstants;
+import org.apache.flink.configuration.Configuration;
 
 import org.apache.flink.api.java.tuple.Tuple1;
 import org.apache.flink.api.java.tuple.Tuple2;
@@ -118,7 +121,11 @@ public class ProcessPBF {
             return;
         }
 
-        final ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();
+        Configuration conf = new Configuration();
+        conf.setFloat(ConfigConstants.TASK_MANAGER_MEMORY_FRACTION_KEY, 0.5f);
+        final ExecutionEnvironment env = ExecutionEnvironment.createLocalEnvironment(conf);
+        ExecutionConfig execConfig = env.getConfig();
+        execConfig.setParallelism(54);
 
         // load osm data from PBF input
         OSMDataStream dataStream = new OSMDataStream(inputFile, env);
