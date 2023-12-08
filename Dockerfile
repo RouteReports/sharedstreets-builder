@@ -1,4 +1,4 @@
-FROM gradle:4.7.0-jdk8-alpine AS build
+FROM gradle:7.1-jdk11 AS build
 COPY --chown=gradle:gradle *.gradle /home/gradle/src/
 COPY --chown=gradle:gradle ./external/ /home/gradle/src/external/
 COPY --chown=gradle:gradle ./src/ /home/gradle/src/src/
@@ -8,7 +8,7 @@ RUN gradle allJars --no-daemon
 RUN ls -l /home/gradle/src/*
 RUN ls -l /home/gradle/src/build/libs/*
 
-FROM openjdk:8-jre-slim
+FROM openjdk:11-jre-slim
 
 RUN mkdir /app
 
