@@ -125,7 +125,7 @@ public class ProcessPBF {
         conf.setFloat(ConfigConstants.TASK_MANAGER_MEMORY_FRACTION_KEY, 0.5f);
         final ExecutionEnvironment env = ExecutionEnvironment.createLocalEnvironment(conf);
         ExecutionConfig execConfig = env.getConfig();
-        execConfig.setParallelism(54);
+        //execConfig.setParallelism(54);
 
         // load osm data from PBF input
         OSMDataStream dataStream = new OSMDataStream(inputFile, env);
