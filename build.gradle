@@ -3,10 +3,13 @@ version '0.3.2'
 
 
 buildscript {
-    repositories {  jcenter()
-                    mavenCentral()}
+    repositories {
+            maven { url "https://plugins.gradle.org/m2/" }
+            mavenCentral()
+    }
     dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
+        //classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
+        classpath 'gradle.plugin.com.github.johnrengelman:shadow:7.1.1'
         //classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.3'
     } //  Note PF : this plugin does not support resource transformation (needed for akka configuration files
 }
@@ -23,34 +26,34 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.*
 sourceCompatibility = 1.8
 
 repositories {
-    maven { url "http://repository.apache.org" }
-    jcenter()
+    maven { url "https://repository.apache.org" }
+    mavenCentral()
     mavenLocal()
 }
 
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testImplementation group: 'junit', name: 'junit', version: '4.11'
 }
 
-def flinkversion = "1.3.2"
+def flinkversion = "1.3.3"
 def protobufversion = "3.4.0"
 
 dependencies {
 
 
-    compile 'org.slf4j:slf4j-api:2.0.3'
-    compile 'org.slf4j:slf4j-jdk14:2.0.3'
-    compile files('external/osmosis-osm-binary.jar')
-    compile 'com.esri.geometry:esri-geometry-api:1.2.1'
-    compile "org.apache.flink:flink-java:${flinkversion}"
-    compile "org.apache.flink:flink-clients_2.10:${flinkversion}"
-    compile "com.google.protobuf:protobuf-java:${protobufversion}"
-    compile "com.jsoniter:jsoniter:0.9.15"
-    compile 'net.sf.geographiclib:GeographicLib-Java:1.46'
-    compile 'commons-cli:commons-cli:1.4'
+    implementation 'org.slf4j:slf4j-api:2.0.3'
+    implementation 'org.slf4j:slf4j-jdk14:2.0.3'
+    implementation files('external/osmosis-osm-binary.jar')
+    implementation 'com.esri.geometry:esri-geometry-api:1.2.1'
+    implementation "org.apache.flink:flink-java:${flinkversion}"
+    implementation "org.apache.flink:flink-clients_2.10:${flinkversion}"
+    implementation "com.google.protobuf:protobuf-java:${protobufversion}"
+    implementation "com.jsoniter:jsoniter:0.9.15"
+    implementation 'net.sf.geographiclib:GeographicLib-Java:1.46'
+    implementation 'commons-cli:commons-cli:1.4'
 
-    testCompile "junit:junit:4.11"
+    testImplementation "junit:junit:4.11"
 }
 
 
@@ -115,7 +118,7 @@ shadowJar {
 // and permit to use the soft from a command line
 task allJars(type: ShadowJar) {
     from sourceSets.main.output
-    configurations = [project.configurations.compile]
+    configurations = [project.configurations.runtimeClasspath]
     transform(com.github.jengelman.gradle.plugins.shadow.transformers.AppendingTransformer) { resource = 'reference.conf' }
 
     manifest {
