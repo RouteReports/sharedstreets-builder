@@ -149,7 +149,7 @@ public class ProcessPBF {
             filteredClasses.add(Way.ROAD_CLASS.ClassTrunk);
 
         else if(roadClass.intValue() == Way.ROAD_CLASS.ClassMotorway.getValue())
-            filteredClasses.add(Way.ROAD_CLASS.ClassUnclassified);
+            filteredClasses.add(Way.ROAD_CLASS.ClassMotorway);
 
         else if(roadClass.intValue() == Way.ROAD_CLASS.ClassResidential.getValue())
             filteredClasses.add(Way.ROAD_CLASS.ClassResidential);
