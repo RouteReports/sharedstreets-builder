@@ -49,6 +49,20 @@ public class BaseSegment extends SpatialEntity {
                 return false;
         }
 
+	// can't merge primary road classes with other road classes
+	//
+	// Motivation:
+	// We're merging aggressively, and creating mixed roadClass references to prevent poorly mapped OSM ways getting
+	// split up when they should be a contiguous reference. However, primary roads are often mapped with better quality
+	// and it makes sense to handle start/end of motorway/trunk roads properly.
+
+	int baseSegment1RoadClass = baseSegment1.getRoadClass().getValue();
+        int baseSegment2RoadClass = baseSegment2.getRoadClass().getValue();
+	int roadClassMergeThreshold = Way.ROAD_CLASS.ClassPrimary.getValue();
+        if(baseSegment1RoadClass != baseSegment2RoadClass && (baseSegment1RoadClass <= roadClassMergeThreshold || baseSegment2RoadClass <= roadClassMergeThreshold))
+            return false;
+
+
         // check for duplicates-- need to catch circular segments (they appear mergable)
         if(baseSegment1.waySections.length == baseSegment2.waySections.length) {
             boolean duplicate = true;
